@@ -25,7 +25,10 @@ cp config.php.example config.php
   * Éditer les paramètres de la base de données (_DBHOST_, _DBNAME_, _DBUSER_, _DBPASS_). La base de données n'a pas besoin d'être déjà créée. Elle sera générée grâce aux informations fournies
   * Préparer le compte admin: éditer les paramètres _ADMIN_ et _HASH_ (nom d'utilisateur et hash du mot de passe admin)
   * Changer _ALLOW_ALTER_STRUCTURE_ en _true_ pour autoriser le script _setup.php_ à s'exécuter
-* Ouvrir _setup.php_ dans un navigateur. Fournir des identifiants mysql root (ou d'un utilisateur pouvant créer une nouvelle DB et de nouveaux utilisateurs). La base de donnée est créée. _ALLOW_ALTER_STRUCTURE_ peut être remis à _false_. Les droits d'écriture peuvent être retirés pour _src/Reservation.php_.
+* Création de la base de données:
+  * OPTION 1: Ouvrir _setup.php_ dans un navigateur. Fournir des identifiants mysql root (ou d'un utilisateur pouvant créer une nouvelle DB et de nouveaux utilisateurs).
+  * OPTION 2: Créer manuellement la base de données vide et un utilisateur qui y a accès, puis ouvrir _update-structure.php_ dans un navigateur. De cette manière, pas besoin de fournir les identifiants root.
+  * La base de donnée est créée. _ALLOW_ALTER_STRUCTURE_ peut être remis à _false_. Les droits d'écriture peuvent être retirés pour _src/Reservation.php_.
 * C'est parti ! Le formulaire public est accessible via _index.php_ et l'espace admin via _admin.php_
 
 # Modification de la structure
