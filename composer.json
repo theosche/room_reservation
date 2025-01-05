@@ -1,0 +1,50 @@
+{
+    "name": "theosche/room-reservation",
+    "description": "Simple système de réservation de salle avec suivi/approbation des demandes, facturation, confirmations par email et diverses possibilités de personnalisation",
+    "type": "project",
+	"repositories": [
+		{
+            "type": "package",
+            "package": {
+                "name": "wvrzel/simplecaldav",
+                "version": "dev-master",
+                "type": "library",
+                "source": {
+                    "url": "https://github.com/wvrzel/simpleCalDAV.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+	],
+    "require": {
+        "setasign/fpdi": "^2.6",
+        "setasign/fpdf": "^1.8",
+        "phpmailer/phpmailer": "^6.9",
+        "wvrzel/simplecaldav": "dev-master",
+        "om/icalparser": "^3.1"
+    },
+    "scripts": {
+		"post-install-cmd": [
+			"php scripts/patch_simplecaldav.php"
+		],
+		"post-update-cmd": [
+			"php scripts/patch_simplecaldav.php"
+		]
+	},
+    "license": "GPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Theosche\\RoomReservation\\": "src/"
+        },
+        "classmap": [
+            "vendor/wvrzel/simplecaldav/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Théophile Schenker"
+        }
+    ],
+    "minimum-stability": "stable"
+}
