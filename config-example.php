@@ -11,7 +11,7 @@ namespace Theosche\RoomReservation;
 	// FACULTATIF: Définition de types d'entités qui ont droit à des réductions ou augmentations
 	// Clés: text, price_str, type_short, price,  dbkey, symbol
 	// ATTENTION: LA BASE DE DONNEES DOIT ETRE MISE A JOUR SI CES PARAMETRES SONT MODIFIES
-	// (VOIR update-db.php et setup-db.php)
+	// (VOIR update-structure.php et setup.php)
 	newconst("ENTITYTYPES", [
 		[
 			"text" => "Privé / Entreprise (prix majorés)",
@@ -42,7 +42,7 @@ namespace Theosche\RoomReservation;
 	// FACULTATIF: Définition d'options à cocher pour chaque événement
 	// Clés: text, text_short, price, dbkey
 	// ATTENTION: LA BASE DE DONNEES DOIT ETRE MISE A JOUR SI CES PARAMETRES SONT MODIFIES
-	// (VOIR update-db.php et setup-db.php)
+	// (VOIR update-structure.php et setup.php)
 	newconst("OPTIONS", [
 		[
 			"text" => "Accès à la cuisine",		
