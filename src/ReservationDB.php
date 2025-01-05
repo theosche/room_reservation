@@ -96,8 +96,7 @@ class ReservationDB {
 				}
 			}		
 		}
-    	$totalStmt = $this->pdo->prepare("SELECT COUNT(*) FROM reservations" . $condString);
-		$totalStmt->execute();
+    	$totalStmt = $this->pdo->query("SELECT COUNT(*) FROM reservations" . $condString);
 		return($totalStmt->fetchColumn());
     }
     
