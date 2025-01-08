@@ -17,7 +17,8 @@ require __DIR__ . '/../src/exceptionHandler.php';
 		const review = false;
 		let occurrencePrice = []; // Tableau pour stocker l'état des occurrences
         
-        let eventsCache = []; // Variable globale pour stocker les réservations existantes
+        let eventsDates = []; // Variable globale pour stocker les réservations existantes
+        let eventsUIDs = [];
 
 		// Charger et parser le fichier ICS au chargement de la page
 		async function loadCalendar() {
@@ -26,7 +27,7 @@ require __DIR__ . '/../src/exceptionHandler.php';
 				const data = await response.json();
         
 				// Access the start and end dates
-				eventsCache = data[0].map(line => line.map(date => new Date(date)));
+				eventsDates = data[0].map(line => line.map(date => new Date(date)));
 
 			} catch (error) {
 				console.error('Erreur lors du chargement du calendrier :', error);

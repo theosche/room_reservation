@@ -58,7 +58,8 @@ $status_fr = [
 		?>
 		const review = true;
         
-        let eventsCache = []; // Variable globale pour stocker les événements
+        let eventsDates = []; // Variable globale pour stocker les événements
+        let eventsUIDs = [];
 
 		// Charger et parser le fichier ICS au chargement de la page
 		async function loadCalendar() {
@@ -67,9 +68,8 @@ $status_fr = [
 				const data = await response.json();
         
 				// Access the start and end dates
-				eventsCache = data[0].map(line => line.map(date => new Date(date)));
-				eventsCache.push(data[1]); // UIDs
-
+				eventsDates = data[0].map(line => line.map(date => new Date(date)));
+				eventsUIDs = data[1]; // UIDs
 			} catch (error) {
 				console.error('Erreur lors du chargement du calendrier :', error);
 			}

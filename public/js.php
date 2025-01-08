@@ -44,13 +44,20 @@ function removeOccurrence(element) {
 function checkAvailability(startDateTime, endDateTime, self_uid=null) {
 	let conflict;
 	if (self_uid) {
-		conflict = eventsCache.some(event => {
+		conflict = eventsDates.some(function(event, index) {
+			if (eventsUIDs[index] == self_uid) {
+				console.log(index);
+				console.log(self_uid);
+				console.log(eventsUIDs[index]);
+				console.log(event[0]);
+				console.log(event[1]);
+			}
 			return (
-				(startDateTime < event[1] && endDateTime > event[0] && event.uid != self_uid) // Chevauchement
+				(startDateTime < event[1] && endDateTime > event[0] && eventsUIDs[index] != self_uid) // Chevauchement
 			);
 		});
 	} else {
-		conflict = eventsCache.some(event => {
+		conflict = eventsDates.some(event => {
 			return (
 				(startDateTime < event[1] && endDateTime > event[0]) // Chevauchement
 			);
