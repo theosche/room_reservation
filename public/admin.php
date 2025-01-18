@@ -243,8 +243,9 @@ $status_fr = [
 								<strong class="document-title">Documents :</strong>
 								<a href="<?= $res->prebook_link ?>" target="_blank">Pré-réservation</a>
 								<?php if ($res->status === 'CONFIRMED' || $res->status === 'CLOSED'): ?>
-									<a href="<?= $res->invoice_link ?>" target="_blank">Facture</a><br>
+									<a href="<?= $res->invoice_link ?>" target="_blank">Facture</a>
 								<?php endif; ?>
+								<br>
 								<?php if ($res->don > 0):?>
 									<br><strong>Don :</strong> <?= $res->don ?> <?= CURRENCY ?>
 								<?php endif;?>
