@@ -47,8 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->exec("CREATE DATABASE `$dbName` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
 
         // Create the new user and grant privileges
-        echo "CREATE USER '$dbUser'@'$mysqlHost' IDENTIFIED BY '$dbUserPassword'<br>";
-        $pdo->exec("CREATE USER '$dbUser'@'$mysqlHost' IDENTIFIED BY '$dbUserPassword'");
+        try {
+        	echo "CREATE USER '$dbUser'@'$mysqlHost' IDENTIFIED BY '$dbUserPassword'<br>";
+        	$pdo->exec("CREATE USER '$dbUser'@'$mysqlHost' IDENTIFIED BY '$dbUserPassword'");
+        } catch (\Throwable $e) {
+        	echo "Unable to create user. Maybe it already exists";
+        } 
 		echo "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON `$dbName`.* TO '$dbUser'@'$mysqlHost'";
         $pdo->exec("GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON `$dbName`.* TO '$dbUser'@'$mysqlHost'");
 		echo "FLUSH PRIVILEGES<br>";
