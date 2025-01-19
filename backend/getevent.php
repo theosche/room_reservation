@@ -1,8 +1,5 @@
 <?php
 namespace Theosche\RoomReservation;
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config.php';
-require __DIR__ . '/../src/exceptionHandler.php';
 
 if (!isset($_GET['uid']) || strlen($_GET['uid']) != 36 || !isset($_GET['id']) || !ctype_digit($_GET['id'])) {
 	exit;

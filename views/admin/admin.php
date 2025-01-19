@@ -1,17 +1,6 @@
 <?php
 namespace Theosche\RoomReservation;
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config.php';
-require __DIR__ . '/../src/exceptionHandler.php';
 
-session_start();
-
-// Vérification de l'authentification administrateur
-if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
-	$_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-    header('Location: login.php');
-    exit;
-}
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Génère un jeton sécurisé
 }
@@ -48,7 +37,7 @@ $status_fr = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1.6">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <title>Admin - Liste des Réservations</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script>
@@ -77,7 +66,7 @@ $status_fr = [
 				formData.append("info_demandeur", info);
 			}
 
-			const response = await fetch("admin-form.php", {
+			const response = await fetch("/admin-form.php", {
 				method: "POST",
 				body: formData,
 				headers: {
@@ -156,9 +145,9 @@ $status_fr = [
   	<div class="content">
     <h1 id="main-title"><?=ROOM?> - Liste des Réservations</h1>
     <div id="filters">
-        <a href="admin.php" class="<?= !(isset($_GET['status']) && ($_GET['status'] == 'cancelled' || $_GET['status'] == 'closed')) ? 'active' : '' ?>">Actives</a>
-        <a href="admin.php?status=cancelled" class="<?= isset($_GET['status']) && $_GET['status'] == 'cancelled' ? 'active' : '' ?>">Annulées</a>
-        <a href="admin.php?status=closed" class="<?= isset($_GET['status']) && $_GET['status'] == 'closed' ? 'active' : '' ?>">Terminées</a>
+        <a href="/admin.php" class="<?= !(isset($_GET['status']) && ($_GET['status'] == 'cancelled' || $_GET['status'] == 'closed')) ? 'active' : '' ?>">Actives</a>
+        <a href="/admin.php?status=cancelled" class="<?= isset($_GET['status']) && $_GET['status'] == 'cancelled' ? 'active' : '' ?>">Annulées</a>
+        <a href="/admin.php?status=closed" class="<?= isset($_GET['status']) && $_GET['status'] == 'closed' ? 'active' : '' ?>">Terminées</a>
     </div>
     <table>
         <thead>
@@ -202,7 +191,7 @@ $status_fr = [
                     <td><span class="status status-<?= $res->status ?>"><?= $status_fr[$res->status] ?></span></td>
                     <td><?= $res->created_at->format("d/m/Y") ?></td>
                     <td class="column-actions"><?php if ($res->status == 'PREBOOKED' || $res->status == 'CANCELLED'):?>
-                        <a class="action-button" href="admin-single.php?id=<?= $res->id ?>">Contrôler</a>
+                        <a class="action-button" href="/admin-single.php?id=<?= $res->id ?>">Contrôler</a>
                         <?php endif;?>
                         <?php if ($res->status == 'PREBOOKED' || $res->status == 'CONFIRMED'):?>
                         <a class="action-button" onclick="cancel_res(<?= $res->id ?>)">Annuler</a>
@@ -229,7 +218,7 @@ $status_fr = [
 									<?php
 									if ($res->status != 'CANCELLED' && SHOW_ICS_LINKS) {
 										foreach ($res->events as $event): ?>
-											<li class="icslink"><span class="event-date" data-tooltip="<?= $event['text'] ?>"><?=$event['start_time']->format('d/m/Y H:i') ?> - <?= $event['end_time']->format('H:i') ?></span><a class="icslink" href="getevent.php?id=<?=$res->id?>&uid=<?=$event['uid']?>"><i class="fas fa-calendar"></i></a></li>
+											<li class="icslink"><span class="event-date" data-tooltip="<?= $event['text'] ?>"><?=$event['start_time']->format('d/m/Y H:i') ?> - <?= $event['end_time']->format('H:i') ?></span><a class="icslink" href="/getevent.php?id=<?=$res->id?>&uid=<?=$event['uid']?>"><i class="fas fa-calendar"></i></a></li>
 										<?php endforeach;
 									} else {
 										foreach ($res->events as $event): ?>
@@ -286,7 +275,7 @@ $status_fr = [
 
 		// "First" link
 		if (max($showFirst, $page - $range) > 1) {
-			echo '<li><a href="admin.php?page=1' . $stat . '">1</a></li>';
+			echo '<li><a href="/admin.php?page=1' . $stat . '">1</a></li>';
 		}
 		
 		// Secondary range
@@ -294,7 +283,7 @@ $status_fr = [
 			echo '<li><a>...</a></li>';
 		}
 		if ($page - $secondary_range > 1) {
-			echo '<li><a href="admin.php?page=' . $page - $secondary_range . $stat . '">' . $page - $secondary_range . '</a></li>';
+			echo '<li><a href="/admin.php?page=' . $page - $secondary_range . $stat . '">' . $page - $secondary_range . '</a></li>';
 		}
 		
 		// Range links
@@ -306,7 +295,7 @@ $status_fr = [
 				if ($i == $page) {
 					echo '<li><a class="current-page">' . $i . '</a></li>';
 				} else {
-					echo '<li><a href="admin.php?page=' . $i . $stat . '">' . $i . '</a></li>';
+					echo '<li><a href="/admin.php?page=' . $i . $stat . '">' . $i . '</a></li>';
 				}
 			}
 		}
@@ -316,7 +305,7 @@ $status_fr = [
 		
 		// Secondary range
 		if ($page + $secondary_range < $totalPages) {
-			echo '<li><a href="admin.php?page=' . $page + $secondary_range . $stat . '">' . $page + $secondary_range . '</a></li>';
+			echo '<li><a href="/admin.php?page=' . $page + $secondary_range . $stat . '">' . $page + $secondary_range . '</a></li>';
 		}
 		if ($page + $secondary_range < $totalPages-1) {
 			echo '<li><a>...</a></li>';
@@ -324,7 +313,7 @@ $status_fr = [
 		
 		// "Last" link
 		if (min($showLast, $page + $range) < $totalPages) {
-			echo '<li><a href="admin.php?page=' . $totalPages . $stat . '">' . $totalPages . '</a></li>';
+			echo '<li><a href="/admin.php?page=' . $totalPages . $stat . '">' . $totalPages . '</a></li>';
 		}
 
 		echo '</ul>';

@@ -2,6 +2,7 @@
 namespace Theosche\RoomReservation;
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config.php';
+header('Content-Type: application/javascript');
 ?>
 function addOccurrence() {
 	if (occurrencePrice.length >= 10) {
@@ -45,13 +46,6 @@ function checkAvailability(startDateTime, endDateTime, self_uid=null) {
 	let conflict;
 	if (self_uid) {
 		conflict = eventsDates.some(function(event, index) {
-			if (eventsUIDs[index] == self_uid) {
-				console.log(index);
-				console.log(self_uid);
-				console.log(eventsUIDs[index]);
-				console.log(event[0]);
-				console.log(event[1]);
-			}
 			return (
 				(startDateTime < event[1] && endDateTime > event[0] && eventsUIDs[index] != self_uid) // Chevauchement
 			);

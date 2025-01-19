@@ -1,25 +1,18 @@
 <?php
 namespace Theosche\RoomReservation;
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config.php';
-require __DIR__ . '/../src/exceptionHandler.php';
 
-session_start();
-
-if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
-    header('Location: login.php');
-    exit;
-}
 header('Content-Type: application/json');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (!isset($_POST['csrf_token'], $_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 		http_response_code(403);
-		exit;
+		require __DIR__ . '../../views/403.html';
+		die;
 	}
 
 	if (!ctype_digit($_POST['id'])) {
 		http_response_code(404);
-		exit;
+		require __DIR__ . '../../views/404.html';
+		die;
 	}
 	$id = $_POST['id'];
 	Reservation::initAll();

@@ -300,7 +300,7 @@ class ReservationPDF extends Fpdi {
             $this->utf8_to_iso8859_1("Merci pour votre réservation. " . $invoice_due_str . "Pour toute question, n'hésitez pas à nous contacter.")
         );
         $this->AddPage();
-		$this->setSourceFile(BANK_QR_PDF);
+		$this->setSourceFile(__DIR__ . '/../' . BANK_QR_PDF);
 		$tplId = $this->importPage(1);
 		$this->useTemplate($tplId, 0, 0, 210);		
     }

@@ -1,14 +1,6 @@
 <?php
 namespace Theosche\RoomReservation;
-require_once '../config.php';
 
-session_start();
-// Vérification de l'authentification administrateur
-if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
-	$_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-    header('Location: login.php');
-    exit;
-}
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Génère un jeton sécurisé
 }
@@ -21,7 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (!isset($_POST['csrf_token'], $_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 		echo "CSRF Token error";
 		http_response_code(403);
-		exit;
+		require __DIR__ . '../../views/403.html';
+		die;
 	}
 
     // Get user inputs

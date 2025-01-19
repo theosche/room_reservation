@@ -1,11 +1,10 @@
 <?php
 namespace Theosche\RoomReservation;
-require __DIR__ . '/../config.php';
 
 session_start();
 
 if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
-    header('Location: admin.php');
+    header('Location: /admin.php');
     exit;
 }
 
@@ -14,10 +13,9 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
-
     if ($username === ADMIN && password_verify($password, HASH)) {
         $_SESSION['is_admin'] = true;
-        $redirectTo = isset($_SESSION['redirect_after_login']) ? $_SESSION['redirect_after_login'] : 'admin.php';
+        $redirectTo = isset($_SESSION['redirect_after_login']) ? $_SESSION['redirect_after_login'] : '/admin.php';
         unset($_SESSION['redirect_after_login']);
         header("Location: $redirectTo");
         exit;
@@ -33,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion Administration</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 	<div class="login-form">

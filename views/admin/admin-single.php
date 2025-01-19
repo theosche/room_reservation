@@ -1,18 +1,8 @@
 <?php
 namespace Theosche\RoomReservation;
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config.php';
-require __DIR__ . '/../src/exceptionHandler.php';
+
 class InvalidUrlException extends \Exception{}
 
-session_start();
-
-// Vérification de l'authentification administrateur
-if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
-	$_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-    header('Location: login.php');
-    exit;
-}
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Génère un jeton sécurisé
 }
@@ -45,8 +35,8 @@ $status_fr = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation <?=OF_ROOM?></title>
-	<link rel="stylesheet" href="style.css">
-	<script type="text/javascript" src="js.php"></script>
+	<link rel="stylesheet" href="/style.css">
+	<script type="text/javascript" src="/js.php"></script>
 	<script>
 		<?php
 			$strFalse = "";
@@ -64,7 +54,7 @@ $status_fr = [
 		// Charger et parser le fichier ICS au chargement de la page
 		async function loadCalendar() {
 			try {
-				const response = await fetch('availability.php'); // Proxy PHP pour le fichier ICS
+				const response = await fetch('/availability.php'); // Proxy PHP pour le fichier ICS
 				const data = await response.json();
         
 				// Access the start and end dates
@@ -138,7 +128,7 @@ $status_fr = [
 				alert('Une erreur est survenue. Veuillez vérifier et réessayer. N\'hésitez pas à nous contacter. ' + msg.error);
 			} else {
 				document.getElementById("loaderModal").style.display = "none";
-				window.location.href = "admin.php";
+				window.location.href = "/admin.php";
 			}
 		}
     </script>
@@ -146,9 +136,9 @@ $status_fr = [
 <body>
     <h1 id="main-title">Réservation <?=OF_ROOM?></h1>
     <?php if(DAVEMBED_ADMIN && defined_local("DAVEMBED_URL")): ?>
-	    <iframe src="https://cloud.actionculture.ch/index.php/apps/calendar/embed/HneCPH48gRfsRQr8"></iframe> 
+	    <iframe src="<?=DAVEMBED_URL?>"></iframe> 
     <?php endif;?>
-    <form method="post" action="admin-form.php" accept-charset="utf-8" id="reservation-form">
+    <form method="post" action="/admin-form.php" accept-charset="utf-8" id="reservation-form">
     	<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
     	<input type="hidden" name="id" value="<?= $res->id ?>">
     	<input type="hidden" name="res_action" id="input-button">
@@ -275,7 +265,7 @@ $status_fr = [
         </div>
         <div id="admin-single-confirm-text"><p>Une fois la réservation confirmée ou annulée, le demandeur ou la demandeuse recevra un email, avec notamment les précisions du champ ci-dessus (par ex. réponse à une question / raisons d'un refus de réservation).</p></div>
         <div class="form-group admin-confirm-buttons">
-        	<a class="button" href="admin.php">Retour à la liste</a>
+        	<a class="button" href="/admin.php">Retour à la liste</a>
         	<?php if ($res->status == "PREBOOKED"):?>
             <button type="submit" onclick="refuseButton(event)">Refuser la demande</button>
             <?php endif;?>

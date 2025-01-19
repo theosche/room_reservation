@@ -1,9 +1,6 @@
 <?php
 namespace Theosche\RoomReservation;
 use om\IcalParser;
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config.php';
-require __DIR__ . '/../src/exceptionHandler.php';
 
 $utcStart = new \DateTime("now");
 $utcEnd = (new \DateTime("now"))->modify("+" . FUTURE_RESERVATION_LIMIT . " months");
