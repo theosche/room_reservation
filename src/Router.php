@@ -41,7 +41,8 @@ class Router {
 					if (!empty($customAfterLoginRedirect)) {
 						$_SESSION['redirect_after_login'] = $customAfterLoginRedirect;
 					} else {
-						$_SESSION['redirect_after_login'] = $path;
+						$query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+						$_SESSION['redirect_after_login'] = $path . '?' . $query;
 					}
 					header('Location: login.php');
 					exit;

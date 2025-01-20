@@ -15,7 +15,8 @@ if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
 	}
 	$res = $res[0];
 	if ($res->status != 'PREBOOKED' && $res->status != 'CANCELLED') {
-		throw new InvalidUrlException('Statut incompatible');
+		header('Location: '.$res->invoice_link);
+		die;
 	}
 } else {
 	throw new InvalidUrlException('ID invalide');
