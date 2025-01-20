@@ -250,11 +250,11 @@ class Reservation {
 	}
 	
 	private function getPrebookPdfPath() {
-		$entite = preg_replace("/[^\w]/u", '', $this->entite);
+		$entite = preg_replace("/[^\w]/u", '', html_entity_decode($this->entite));
 		return($this->created_at->format('Y') . '/Pré-réservations/' . $this->id . '_' . $entite . '_Pré-réservation_' . ROOM_SHORT . '.pdf');
 	}
 	private function getInvoicePdfPath() {
-		$entite = preg_replace("/[^\w]/u", '', $this->entite);
+		$entite = preg_replace("/[^\w]/u", '', html_entity_decode($this->entite));
 		return($this->created_at->format('Y') . '/Factures/' . $this->id . '_' . $entite . '_Facture_' . ROOM_SHORT . '.pdf');
 	}
 	
