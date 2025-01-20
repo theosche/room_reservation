@@ -21,6 +21,7 @@ class Reservation {
     private $codesLink = null;
     // Do not remove / change comments below
     // START OF DYNAMIC CLASS PROPERTIES //
+	public $is_private, $is_member, $is_volunteer = 0;
 	// END OF DYNAMIC CLASS PROPERTIES //
 	public static function initAll() {
 		self::initDBOnly();
@@ -249,10 +250,12 @@ class Reservation {
 	}
 	
 	private function getPrebookPdfPath() {
-		return($this->created_at->format('Y') . '/Pré-réservations/' . $this->id . '_' . $this->entite . '_Pré-réservation_' . ROOM_SHORT . '.pdf');
+		$entite = preg_replace("/[^\w]/u", '', $this->entite);
+		return($this->created_at->format('Y') . '/Pré-réservations/' . $this->id . '_' . $entite . '_Pré-réservation_' . ROOM_SHORT . '.pdf');
 	}
 	private function getInvoicePdfPath() {
-		return($this->created_at->format('Y') . '/Factures/' . $this->id . '_' . $this->entite . '_Facture_' . ROOM_SHORT . '.pdf');
+		$entite = preg_replace("/[^\w]/u", '', $this->entite);
+		return($this->created_at->format('Y') . '/Factures/' . $this->id . '_' . $entite . '_Facture_' . ROOM_SHORT . '.pdf');
 	}
 	
 	private function getEventsFromPost() {
@@ -298,7 +301,7 @@ class Reservation {
 			$interval = $event['start_time']->diff($event['end_time']);
 			$duree = ($interval->days * 24) + $interval->h + ($interval->i / 60);
 			$startHour = (int)$event['start_time']->format('H');
-			if ($duree < MAX_HOURS_SHORT || $startHour >= ALWAYS_SHORT_AFTER) {
+			if ($duree <= MAX_HOURS_SHORT || $startHour >= ALWAYS_SHORT_AFTER) {
 				$text = 'Réservation courte durée (<'. MAX_HOURS_SHORT .'h) ou soirée (dès ' . ALWAYS_SHORT_AFTER .'h)';
 				$price = PRICE_SHORT;
 			} else {
